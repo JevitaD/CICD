@@ -12,7 +12,7 @@ stages {
     }
   }
 
-  /*stage('Build') {
+  stage('Build') {
     steps {
        sh 'mvn -f MyAwesomeApp/pom.xml clean install'  
     }
@@ -24,7 +24,7 @@ stages {
     }
   }
 }
-/*stage('Push Image') {
+stage('Push Image') {
 	steps {
 		script { 
 			docker.withRegistry('','dockerhub') {
@@ -34,7 +34,7 @@ stages {
 	}
  }
 	
- stage('DEPLOY IMAGE') {
+ stage('Deploying docker conatiner ') {
   steps {
     script { 
 	docker.withRegistry( '','dockerhub' ) { 
@@ -42,25 +42,14 @@ stages {
 	 }
     } 
 }
-}*/
-stage('DEPLOY IMAGE') {
+}
+stage('Deploying image to kubernetes') {
 	steps {
-		/*withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'k8s-config', namespace: '', serverUrl: '') {*/
+		withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'k8s-config', namespace: '', serverUrl: '') {
 			sh 'kubectl apply -f MyAwesomeApp/springboot-lb.yaml'
-	/*   }*/
+	  }
  
 	}
   }
-  /*
-stage ('Kubernetes Deploy') {
-	
-        kubernetesDeploy(
-            configs: 'MyAwesomeApp/springboot-lb.yml',
-            kubeconfigId: 'k8s-config',
-            enableConfigSubstitution: true
-            )
-	
-    }
-    */
 }
 }
